@@ -33,9 +33,11 @@ COPY mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
 RUN set -ex ; \
     sed -i 's/post_max_size.*/post_max_size = 150M/g;s/upload_max_filesize.*/upload_max_filesize = 150M/g' /etc/php/7.2/apache2/php.ini
 
+#RUN wget -O /etc/redis/redis.conf 'http://download.redis.io/redis-stable/redis.conf'
 COPY setup_ffp_script.sh /.setup_ffp_script.sh
 COPY all_cron /.all_cron
 COPY backup.sh /.backup.sh
 COPY start_freeflowpages.sh /.start_freeflowpages.sh
+COPY supervisor.conf /etc/supervisor/supervisord.conf 
 RUN chmod +x /.start_freeflowpages.sh
 ENTRYPOINT ["/.start_freeflowpages.sh"]
