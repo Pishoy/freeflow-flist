@@ -37,6 +37,8 @@ RUN set -ex ; \
 COPY setup_ffp_script.sh /.setup_ffp_script.sh
 COPY all_cron /.all_cron
 COPY backup.sh /.backup.sh
+COPY purge_backup.sh /.purge_backup.sh
+RUN chmod +x /.purge_backup.sh
 COPY start_freeflowpages.sh /.start_freeflowpages.sh
 COPY supervisor.conf /etc/supervisor/supervisord.conf 
 RUN chmod +x /.start_freeflowpages.sh
