@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 set -ex
-
+echo "sytsm env before #################"
+cat /etc/environment
 # set env varaibles so crontab can connect to database by below env
-env | grep -v "PATH\=" >> /etc/environment
+
+env | grep -v "PATH\=" | grep -v "HOME\=" | grep -v "PWD\=" | grep -v "SHLVL\=" >> /etc/environment
+echo "sytsm env after #################"
+cat /etc/environment
 
 sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     locale-gen
@@ -53,7 +57,7 @@ mysql -e 'CREATE DATABASE IF NOT EXISTS humhub CHARACTER SET utf8mb4 COLLATE utf
 mysql -e "GRANT ALL ON humhub.* TO '$user'@'localhost' IDENTIFIED BY '$pass'"
 mysql -e 'FLUSH PRIVILEGES'
 fi
-[[ mysqladmin --user=root --password= password "$ROOT_DB_PASS" ]] &&  echo password updated successfully || echo root pass was set before
+mysqladmin --user=root --password= password "$ROOT_DB_PASS" &&  echo password updated successfully || echo root pass was set before
 
 bash /.setup_ffp_script.sh || echo "error occured while installing ignore it now #### "
 
